@@ -10,7 +10,7 @@ namespace Photino.Blazor.Sample
         [STAThread]
         static void Main(string[] args)
         {
-            var appBuilder = PhotinoBlazorAppBuilder.CreateDefault(args);
+            var appBuilder = RemotePhotinoBlazorAppBuilder.CreateDefault(args);
 
             appBuilder.Services
                 .AddLogging();
