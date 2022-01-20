@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -11,71 +12,66 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.Extensions.FileProviders;
+using PeakSWC.RemoteWebView;
 using PhotinoNET;
 
 namespace Photino.Blazor
 {
     public class RemotePhotinoWebViewManager : PhotinoWebViewManager
     {
+        Uri url;
         private readonly PhotinoWindow _window;
 
-        // On Windows, we can't use a custom scheme to host the initial HTML,
-        // because webview2 won't let you do top-level navigation to such a URL.
-        // On Linux/Mac, we must use a custom scheme, because their webviews
-        // don't have a way to intercept http:// scheme requests.
-        public static readonly string BlazorAppScheme = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-            ? "http"
-            : "app";
 
-        public static readonly string AppBaseUri
-            = $"{BlazorAppScheme}://0.0.0.0/";
+        private RemoteWebView RemoteWebView { get; }
+        private IBlazorWebView BlazorWebView { get; }
 
         public RemotePhotinoWebViewManager(RemotePhotinoWindow window, IServiceProvider provider, Dispatcher dispatcher, Uri appBaseUri, IFileProvider fileProvider, JSComponentConfigurationStore jsComponents, string hostPageRelativePath)
             : base(window, provider, dispatcher, appBaseUri, fileProvider, jsComponents, hostPageRelativePath)
         {
             _window = window ?? throw new ArgumentNullException(nameof(window));
-            _window.WebMessageReceived += (sender, message) =>
-            {
-                // On some platforms, we need to move off the browser UI thread
-                Task.Factory.StartNew(message =>
-                {
-                    // TODO: Fix this. Photino should ideally tell us the URL that the message comes from so we
-                    // know whether to trust it. Currently it's hardcoded to trust messages from any source, including
-                    // if the webview is somehow navigated to an external URL.
-                    var messageOriginUrl = new Uri(AppBaseUri);
+            BlazorWebView = window;
+            RemoteWebView = new RemoteWebView(
+                window,
+                hostPageRelativePath,
+                dispatcher,
+                new CompositeFileProvider(StaticWebAssetsLoader.UseStaticWebAssets(fileProvider), new EmbeddedFileProvider(typeof(RemoteWebView).Assembly))
+                );
 
-                    MessageReceived(messageOriginUrl, (string)message!);
-                }, message, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
-            };
+            RemoteWebView.OnWebMessageReceived += RemoteOnWebMessageReceived;
+            RemoteWebView.Initialize();
+
+            this.url = new Uri("https://0.0.0.0/");
         }
 
-        public Stream HandleWebRequest(object sender, string schema, string url, out string? contentType)
+        private void RemoteOnWebMessageReceived(object? sender, string e)
         {
-            // It would be better if we were told whether or not this is a navigation request, but
-            // since we're not, guess.
-            var hasFileExtension = url.LastIndexOf('.') > url.LastIndexOf('/');
+            this.Dispatcher.InvokeAsync(() =>
+            {
+                var url = sender?.ToString() ?? "";
+                if (BlazorWebView.ServerUri != null && url.StartsWith(BlazorWebView.ServerUri.ToString()))
+                {
+                    url = url.Replace(BlazorWebView.ServerUri.ToString(), this.url?.ToString() ?? "");
+                    url = url.Replace(BlazorWebView.Id.ToString() + $"/", "");
+                    if (url.EndsWith(RemoteWebView.HostHtmlPath)) url = url.Replace(RemoteWebView.HostHtmlPath, "");
+                }
 
-            if (url.StartsWith(AppBaseUri, StringComparison.Ordinal)
-                && TryGetResponseContent(url, !hasFileExtension, out var statusCode, out var statusMessage, out var content, out var headers))
-            {
-                headers.TryGetValue("Content-Type", out contentType);
-                return content;
-            }
-            else
-            {
-                contentType = default;
-                return null;
-            }
+                MessageReceived(new Uri(url), e);
+            });
+
         }
 
         protected override void NavigateCore(Uri absoluteUri)
         {
-            _window.Load(absoluteUri);
+            _window.LoadRawString("raw string");
+            this.url = absoluteUri;
+            RemoteWebView.NavigateToUrl(absoluteUri.AbsoluteUri);
         }
 
         protected override void SendMessage(string message)
         {
-            _window.SendWebMessage(message);
+            RemoteWebView.SendMessage(message);
         }
+
     }
 }

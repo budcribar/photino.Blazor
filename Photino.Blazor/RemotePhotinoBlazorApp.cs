@@ -33,6 +33,8 @@ namespace Photino.Blazor
             MainWindow.SetLeft(450);
             MainWindow.SetTop(100);
 
+            MainWindow.ServerUri = new Uri("https://localhost:5001");
+
             MainWindow.RegisterCustomSchemeHandler(PhotinoWebViewManager.BlazorAppScheme, HandleWebRequest);
 
             // We assume the host page is always in the root of the content directory, because it's
@@ -58,7 +60,12 @@ namespace Photino.Blazor
 
         public void Run()
         {
-            WindowManager.Navigate("/");
+            WindowManager.Navigate(@"wwwroot\index.html");
+
+            //while (true)
+            //{
+            //    Task.Delay(100).Wait();
+            //}
             MainWindow.WaitForClose();
         }
 
