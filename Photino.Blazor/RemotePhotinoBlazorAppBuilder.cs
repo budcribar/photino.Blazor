@@ -23,7 +23,7 @@ namespace Photino.Blazor
             // var jsRuntime = DefaultWebAssemblyJSRuntime.Instance;
             var builder = new RemotePhotinoBlazorAppBuilder();
             builder.Services
-                .AddScoped(sp => new HttpClient(new PhotinoHttpHandler(sp.GetService<PhotinoBlazorApp>())) { BaseAddress = new Uri(PhotinoWebViewManager.AppBaseUri) })
+                //.AddScoped(sp => new HttpClient(new PhotinoHttpHandler(sp.GetService<PhotinoBlazorApp>())) { BaseAddress = new Uri(PhotinoWebViewManager.AppBaseUri) })
                 .AddSingleton<RemotePhotinoBlazorApp>()
                 .AddBlazorWebView();
 

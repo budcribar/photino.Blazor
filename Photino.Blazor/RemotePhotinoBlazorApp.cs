@@ -62,10 +62,6 @@ namespace Photino.Blazor
         {
             WindowManager.Navigate(@"wwwroot\index.html");
 
-            //while (true)
-            //{
-            //    Task.Delay(100).Wait();
-            //}
             MainWindow.WaitForClose();
         }
 

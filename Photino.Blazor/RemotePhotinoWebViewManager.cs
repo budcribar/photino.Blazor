@@ -63,7 +63,8 @@ namespace Photino.Blazor
 
         protected override void NavigateCore(Uri absoluteUri)
         {
-            _window.LoadRawString("raw string");
+            string link = $"<a href='{BlazorWebView.ServerUri}app/{BlazorWebView.Id}'> link </a>";
+            _window.LoadRawString(link);
             this.url = absoluteUri;
             RemoteWebView.NavigateToUrl(absoluteUri.AbsoluteUri);
         }

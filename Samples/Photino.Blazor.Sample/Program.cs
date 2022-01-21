@@ -12,8 +12,8 @@ namespace Photino.Blazor.Sample
         {
             var appBuilder = RemotePhotinoBlazorAppBuilder.CreateDefault(args);
 
-            appBuilder.Services
-                .AddLogging();
+            appBuilder.Services.AddLogging();
+            appBuilder.Services.AddScoped<HttpClient>();
 
             // register root component and selector
             appBuilder.RootComponents.Add<App>("app");
