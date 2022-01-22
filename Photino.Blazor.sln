@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "Samples\Hello
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Photino.Blazor.Sample", "Samples\Photino.Blazor.Sample\Photino.Blazor.Sample.csproj", "{7C8371BF-E92B-437F-916E-53C0DADC2C54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteWebView", "..\RemoteBlazorWebView\src\RemoteWebView\RemoteWebView.csproj", "{60AF0E10-7F1B-425C-AE98-A17A9643A408}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,22 +80,6 @@ Global
 		{7C8371BF-E92B-437F-916E-53C0DADC2C54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C8371BF-E92B-437F-916E-53C0DADC2C54}.Release|x64.ActiveCfg = Release|Any CPU
 		{7C8371BF-E92B-437F-916E-53C0DADC2C54}.Release|x64.Build.0 = Release|Any CPU
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Debug|Any CPU.Build.0 = Debug|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Debug|x64.ActiveCfg = Debug|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Debug|x64.Build.0 = Debug|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Embedded|Any CPU.ActiveCfg = Embedded|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Embedded|Any CPU.Build.0 = Embedded|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Embedded|x64.ActiveCfg = Embedded|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Embedded|x64.Build.0 = Embedded|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.NoAuthorization|Any CPU.ActiveCfg = NoAuthorization|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.NoAuthorization|Any CPU.Build.0 = NoAuthorization|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.NoAuthorization|x64.ActiveCfg = NoAuthorization|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.NoAuthorization|x64.Build.0 = NoAuthorization|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Release|Any CPU.ActiveCfg = Release|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Release|Any CPU.Build.0 = Release|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Release|x64.ActiveCfg = Release|x64
-		{60AF0E10-7F1B-425C-AE98-A17A9643A408}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
