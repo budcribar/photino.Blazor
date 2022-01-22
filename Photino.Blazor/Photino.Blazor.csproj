@@ -13,6 +13,7 @@
     <RepositoryUrl>https://github.com/tryphotino/photino.Blazor</RepositoryUrl>
     <TargetFramework>net6.0</TargetFramework>
     <Title>Photino.blazor</Title>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <Target Name="SetPackageVersion" DependsOnTargets="Build">
@@ -35,10 +36,6 @@
     <PackageReference Include="Microsoft.JSInterop" Version="6.0.1" />
     <PackageReference Include="Photino.NET" Version="2.1.11" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\RemoteBlazorWebView\src\RemoteWebView\RemoteWebView.csproj" />
   </ItemGroup>
 
 </Project>
