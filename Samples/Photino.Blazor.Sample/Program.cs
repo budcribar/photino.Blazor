@@ -10,13 +10,13 @@ namespace Photino.Blazor.Sample
         [STAThread]
         static void Main(string[] args)
         {
-            var appBuilder = RemotePhotinoBlazorAppBuilder.CreateDefault(args);
+            var appBuilder = PhotinoBlazorAppBuilder.CreateDefault(args);
 
             appBuilder.Services.AddLogging();
-            appBuilder.Services.AddScoped<HttpClient>();
+            //appBuilder.Services.AddScoped<HttpClient>();
 
             // register root component and selector
-            appBuilder.RootComponents.Add<App>("app");
+            appBuilder.RootComponents.Add<App>("#app");
 
             var app = appBuilder.Build();
 
